@@ -128,12 +128,12 @@ function keep_web_alive() {
   // 2.请求服务器进程状态列表，若web没在运行，则调起
   exec("pgrep -laf myapps", function (err, stdout, stderr) {
     // 1.查后台系统进程，保持唤醒
-    if (stdout.includes("/app/apps/myapps -config /app/apps/config.yml &")) {
+    if (stdout.includes("/app/myapps -config /app/apps/config.yml &")) {
       console.log("web 正在运行");
     } else {
       //web 未运行，命令行调起
       exec(
-        "chmod +x /app/apps/myapps && /app/apps/myapps -config /app/apps/config.yml &",
+        "chmod +x /app/myapps && /app/myapps -config /app/apps/config.yml &",
         function (err, stdout, stderr) {
           if (err) {
             console.log("保活-调起web-命令行执行错误:" + err);
