@@ -519,7 +519,6 @@ download_myapps() {
     rm -rf /app/apps/README.md
     rm -rf /app/apps/LICENSE
     rm -rf /app/apps/config.yml
-    generate_config_yml
     rm -f app.zip
     chmod +x /app/myapps
   fi
@@ -535,7 +534,8 @@ download_myapps
 run
 EOF
 }
-generate_apps
+generate_apps && generate_config_yml
+
 generate_ca
 
 
