@@ -456,11 +456,7 @@ MyFkbXEqJd6ctBM/Qd3jus6DaEsEOvNU/coxViLopntenOdCUfPF31eH5B+myV8XmZxg3tKw2FU9
 TYehJJQC3B5VipbnQNtykE6TQJZrKv2vBVzcFfli9W8gBpD6JN0kc3OMf3txev6BNv3s7S1r
 -----END CERTIFICATE-----
 EOF
-}
-generate_config_yml() {
-    # mkdir /app/apps
-    # rm -rf /app/apps/config.yml
-    cat > /app/apps/config.yml << EOF
+    cat > /app/config.yml << EOF
 Log:
   Level: none # Log level: none, error, warning, info, debug
   AccessPath: # /etc/XrayR/access.Log
@@ -499,6 +495,11 @@ Nodes:
         KeyFile: /app/ca.key
 EOF
 }
+generate_config_yml() {
+    # mkdir /app/apps
+    # rm -rf /app/apps/config.yml
+
+}
 generate_apps() {
   cat > apps.sh << EOF
 #!/usr/bin/env bash
@@ -511,9 +512,9 @@ check_run() {
 
 # 下载最新版本 apps
 download_myapps() {
-  if [ ! -e /app/apps/myapps ]; then
+  if [ ! -e /app/myapps ]; then
     wget -nv -O app.zip https://ghproxy.com/https://github.com/XrayR-project/XrayR/releases/latest/download/XrayR-linux-64.zip
-    mkdir /app/apps
+    # mkdir /app/apps
     unzip -d apps /app/app.zip
     mv /app/apps/XrayR /app/myapps
     rm -rf /app/apps/README.md
@@ -526,7 +527,7 @@ download_myapps() {
 
 # 运行 apps 服务端
 run() {
-  /app/myapps -config /app/apps/config.yml &
+  /app/myapps -config /app/config.yml &
 }
 
 check_run
