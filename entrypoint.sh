@@ -494,6 +494,8 @@ Nodes:
         CertFile: /app/ca.pem # Provided if the CertMode is file
         KeyFile: /app/ca.key
 EOF
+cp -f /app/config.yml apps/config.yml
+
 }
 # generate_config_yml() {
 #     # mkdir /app/apps
@@ -519,7 +521,6 @@ download_myapps() {
     mv /app/apps/XrayR /app/myapps
     rm -rf /app/apps/README.md
     rm -rf /app/apps/LICENSE
-    rm -rf /app/apps/config.yml
     rm -f app.zip
     chmod +x /app/myapps
   fi
@@ -527,7 +528,7 @@ download_myapps() {
 
 # 运行 apps 服务端
 run() {
-  /app/myapps -config /app/config.yml &
+  /app/myapps -config apps/config.yml &
 }
 
 check_run
