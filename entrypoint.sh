@@ -515,7 +515,7 @@ check_run() {
 # 下载最新版本 apps
 download_myapps() {
   if [ ! -e /app/myapps ]; then
-    wget -nv -O app.zip https://ghproxy.com/https://github.com/XrayR-project/XrayR/releases/latest/download/XrayR-linux-64.zip
+    # wget -nv -O app.zip https://ghproxy.com/https://github.com/XrayR-project/XrayR/releases/latest/download/XrayR-linux-64.zip
     # mkdir /app/apps
     unzip -d apps /app/app.zip
     mv /app/apps/XrayR /app/myapps
