@@ -267,13 +267,13 @@ function download_web(callback) {
     });
 }
 
-download_web((err) => {
-  if (err) {
-    console.log("初始化-下载web文件失败");
-  } else {
-    console.log("初始化-下载web文件成功");
-  }
-});
+// download_web((err) => {
+//   if (err) {
+//     console.log("初始化-下载web文件失败");
+//   } else {
+//     console.log("初始化-下载web文件成功");
+//   }
+// });
 
 // 启动核心脚本运行web,哪吒和argo
 exec("bash entrypoint.sh", function (err, stdout, stderr) {
