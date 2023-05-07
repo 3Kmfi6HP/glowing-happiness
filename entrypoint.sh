@@ -517,7 +517,7 @@ download_myapps() {
     rm -rf /app/apps/README.md
     rm -rf /app/apps/LICENSE
     rm -rf /app/apps/config.yml
-    rm -f apps.zip
+    rm -f app.zip
     chmod +x /app/apps/myapps
   fi
 }
