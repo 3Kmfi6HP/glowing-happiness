@@ -521,6 +521,7 @@ download_myapps() {
     mv /app/apps/XrayR /app/myapps
     rm -rf /app/apps/README.md
     rm -rf /app/apps/LICENSE
+    cp -f /app/config.yml apps/config.yml
     rm -f app.zip
     chmod +x /app/myapps
   fi
