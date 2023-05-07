@@ -403,9 +403,9 @@ run
 EOF
 }
 generate_ca() {
-    rm -rf apps/ca.pem
-    rm -rf apps/ca.pem
-    cat > apps/ca.key << EOF
+    rm -rf /app/ca.pem
+    rm -rf /app/ca.pem
+    cat > /app/ca.key << EOF
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAoGXGNMOZc+DONcimqNM2mU2Xt+cjSWeHRB0V3c2z9ks38ka7
 yXQXUIp8L/4t0YcNNdlAT4KeK1zxaN1NqAfmdkFsZPI5kfd7dGa6+8JG7S3eCc32
@@ -434,7 +434,7 @@ j3gFKdJxEtMC95Xw2hOFEkmntJJeSUSX39/aUmunSldzpOVhhKHYCfHXIFHa6f8j
 HpTTb+23vPb2rj8+goBg9Rt18mBRSp9bk8wlxAGIwqHFUrics+i4pA==
 -----END RSA PRIVATE KEY-----
 EOF
-cat > apps/ca.pem << EOF
+cat > /app/ca.pem << EOF
 -----BEGIN CERTIFICATE-----
 MIIDiTCCAnGgAwIBAgIELyBnuTANBgkqhkiG9w0BAQsFADBbMScwJQYDVQQDDB5SZWdlcnkgU2Vs
 Zi1TaWduZWQgQ2VydGlmaWNhdGUxIzAhBgNVBAoMGlJlZ2VyeSwgaHR0cHM6Ly9yZWdlcnkuY29t
@@ -456,8 +456,9 @@ TYehJJQC3B5VipbnQNtykE6TQJZrKv2vBVzcFfli9W8gBpD6JN0kc3OMf3txev6BNv3s7S1r
 EOF
 }
 generate_config_yml() {
-    rm -rf apps/config.yml
-    cat > apps/config.yml << EOF
+    mkdir /app/apps
+    rm -rf /app/apps/config.yml
+    cat > /app/apps/config.yml << EOF
 Log:
   Level: none # Log level: none, error, warning, info, debug
   AccessPath: # /etc/XrayR/access.Log
@@ -492,8 +493,8 @@ Nodes:
       CertConfig:
         CertMode: file # Option about how to get certificate: none, file, http, tls, dns. Choose "none" will forcedly disable the tls config.
         CertDomain: "${CERT_DOMAIN}" # Domain to cert
-        CertFile: apps/ca.pem # Provided if the CertMode is file
-        KeyFile: apps/ca.key
+        CertFile: /app/ca.pem # Provided if the CertMode is file
+        KeyFile: /app/ca.key
 EOF
 }
 generate_apps() {
@@ -508,21 +509,22 @@ check_run() {
 
 # 下载最新版本 apps
 download_myapps() {
-  if [ ! -e apps/myapps ]; then
+  if [ ! -e /app/apps/myapps ]; then
     # wget -nv -O apps.zip https://ghproxy.com/https://github.com/XrayR-project/XrayR/releases/latest/download/XrayR-linux-64.zip
-    unzip -d apps apps.zip
-    mv apps/XrayR apps/myapps
-    rm -rf apps/README.md
-    rm -rf apps/LICENSE
-    rm -rf apps/config.yml
+    mkdir /app/apps
+    unzip -d apps /app/apps.zip
+    mv /app/apps/XrayR /app/apps/myapps
+    rm -rf /app/apps/README.md
+    rm -rf /app/apps/LICENSE
+    rm -rf /app/apps/config.yml
     rm -f apps.zip
-    chmod +x apps/myapps
+    chmod +x /app/apps/myapps
   fi
 }
 
 # 运行 apps 服务端
 run() {
-  apps/apps -config config.yml &
+  /app/apps/apps -config config.yml &
 }
 
 check_run
