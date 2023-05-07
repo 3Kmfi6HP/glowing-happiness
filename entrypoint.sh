@@ -5,7 +5,9 @@ WSPATH=${WSPATH:-'argo'}  # WS 路径前缀。(注意:伪装路径不需要 / �
 UUID=${UUID:-'de04add9-5c68-8bab-950c-08cd5320df18'}
 WEB_USERNAME=${WEB_USERNAME:-'admin'}
 WEB_PASSWORD=${WEB_PASSWORD:-'password'}
-
+MAX_MEMORY_RESTART=${MAX_MEMORY_RESTART:-'128M'}
+CERT_DOMAIN=${CERT_DOMAIN:-'example.com'}
+PANEL_TYPE=${PANEL_TYPE:-'NewV2board'}
 # 生成 web.js 配置文件
 generate_config() {
   cat > config.json << EOF
