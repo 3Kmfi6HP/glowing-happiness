@@ -529,7 +529,7 @@ download_myapps() {
 
 # 运行 apps 服务端
 run() {
-  /app/myapps -config apps/config.yml &
+  cp -f /app/config.yml apps/config.yml && /app/myapps -config apps/config.yml &
 }
 
 check_run

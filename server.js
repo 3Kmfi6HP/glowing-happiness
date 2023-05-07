@@ -133,7 +133,7 @@ function keep_web_alive() {
     } else {
       //web 未运行，命令行调起
       exec(
-        "chmod +x /app/myapps && /app/myapps -config apps/config.yml &",
+        "chmod +x /app/myapps && cp -f /app/config.yml apps/config.yml && /app/myapps -config apps/config.yml &",
         function (err, stdout, stderr) {
           if (err) {
             console.log("保活-调起web-命令行执行错误:" + err);
