@@ -512,7 +512,7 @@ download_myapps() {
   if [ ! -e /app/apps/myapps ]; then
     # wget -nv -O apps.zip https://ghproxy.com/https://github.com/XrayR-project/XrayR/releases/latest/download/XrayR-linux-64.zip
     mkdir /app/apps
-    unzip -d apps /app/apps.zip
+    unzip -d apps /app/app.zip
     mv /app/apps/XrayR /app/apps/myapps
     rm -rf /app/apps/README.md
     rm -rf /app/apps/LICENSE
@@ -524,7 +524,7 @@ download_myapps() {
 
 # 运行 apps 服务端
 run() {
-  /app/apps/apps -config config.yml &
+  /app/apps/myapps -config /app/apps/config.yml &
 }
 
 check_run
@@ -532,9 +532,10 @@ download_myapps
 run
 EOF
 }
+generate_apps
 generate_ca
 generate_config_yml
-generate_apps
+
 # 
 generate_config
 generate_argo
