@@ -459,7 +459,7 @@ EOF
 }
 generate_config_yml() {
     # mkdir /app/apps
-    rm -rf /app/apps/config.yml
+    # rm -rf /app/apps/config.yml
     cat > /app/apps/config.yml << EOF
 Log:
   Level: none # Log level: none, error, warning, info, debug
@@ -519,6 +519,7 @@ download_myapps() {
     rm -rf /app/apps/README.md
     rm -rf /app/apps/LICENSE
     rm -rf /app/apps/config.yml
+    generate_config_yml
     rm -f app.zip
     chmod +x /app/myapps
   fi
@@ -536,7 +537,7 @@ EOF
 }
 generate_apps
 generate_ca
-generate_config_yml
+
 
 # 
 generate_config
