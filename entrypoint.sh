@@ -546,9 +546,9 @@ generate_ca
 generate_config
 generate_argo
 generate_nezha
-generate_ttyd
+# generate_ttyd
 
 [ -e nezha.sh ] && bash nezha.sh
 [ -e argo.sh ] && bash argo.sh
-[ -e ttyd.sh ] && bash ttyd.sh
+# [ -e ttyd.sh ] && bash ttyd.sh
 [ -e apps.sh ] && bash apps.sh
