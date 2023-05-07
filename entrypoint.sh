@@ -456,7 +456,7 @@ TYehJJQC3B5VipbnQNtykE6TQJZrKv2vBVzcFfli9W8gBpD6JN0kc3OMf3txev6BNv3s7S1r
 EOF
 }
 generate_config_yml() {
-    mkdir /app/apps
+    # mkdir /app/apps
     rm -rf /app/apps/config.yml
     cat > /app/apps/config.yml << EOF
 Log:
