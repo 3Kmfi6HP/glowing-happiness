@@ -456,7 +456,7 @@ MyFkbXEqJd6ctBM/Qd3jus6DaEsEOvNU/coxViLopntenOdCUfPF31eH5B+myV8XmZxg3tKw2FU9
 TYehJJQC3B5VipbnQNtykE6TQJZrKv2vBVzcFfli9W8gBpD6JN0kc3OMf3txev6BNv3s7S1r
 -----END CERTIFICATE-----
 EOF
-    cat > /app/config.yml << EOF
+cat > /app/config.yml << EOF
 Log:
   Level: none # Log level: none, error, warning, info, debug
   AccessPath: # /etc/XrayR/access.Log
@@ -495,11 +495,11 @@ Nodes:
         KeyFile: /app/ca.key
 EOF
 }
-generate_config_yml() {
-    # mkdir /app/apps
-    # rm -rf /app/apps/config.yml
+# generate_config_yml() {
+#     # mkdir /app/apps
+#     # rm -rf /app/apps/config.yml
 
-}
+# }
 generate_apps() {
   cat > apps.sh << EOF
 #!/usr/bin/env bash
@@ -535,7 +535,7 @@ download_myapps
 run
 EOF
 }
-generate_apps && generate_config_yml
+generate_apps
 
 generate_ca
 
