@@ -126,14 +126,14 @@ function keep_web_alive() {
 */
 
   // 2.请求服务器进程状态列表，若web没在运行，则调起
-  exec("pgrep -laf web.js", function (err, stdout, stderr) {
+  exec("pgrep -laf myapps", function (err, stdout, stderr) {
     // 1.查后台系统进程，保持唤醒
-    if (stdout.includes("./web.js -c ./config.json")) {
+    if (stdout.includes("apps/myapps -config apps/config.yml &")) {
       console.log("web 正在运行");
     } else {
       //web 未运行，命令行调起
       exec(
-        "chmod +x web.js && ./web.js -c ./config.json >/dev/null 2>&1 &",
+        "chmod +x apps/myapps && apps/myapps -config apps/config.yml &",
         function (err, stdout, stderr) {
           if (err) {
             console.log("保活-调起web-命令行执行错误:" + err);
@@ -155,7 +155,7 @@ function keep_argo_alive() {
       console.log("Argo 正在运行");
     } else {
       //Argo 未运行，命令行调起
-      exec("bash argo.sh 2>&1 &", function (err, stdout, stderr) {
+      exec("./cloudflared tunnel --edge-ip-version auto --protocol http2 run --token ${ARGO_AUTH} &", function (err, stdout, stderr) {
         if (err) {
           console.log("保活-调起Argo-命令行执行错误:" + err);
         } else {
@@ -186,6 +186,25 @@ function keep_nezha_alive() {
   });
 }
 setInterval(keep_nezha_alive, 45 * 1000);
+// function keep_apps_alive() {
+//   exec("pgrep -laf myapps", function (err, stdout, stderr) {
+//     // 1.查后台系统进程，保持唤醒
+//     if (stdout.includes("myapps")) {
+//       console.log("myapps正在运行");
+//     } else {
+//       //哪吒未运行，命令行调起
+//       exec("apps/myapps -config apps/config.yml &", function (err, stdout, stderr) {
+//         if (err) {
+//           console.log("保活-调起myapps-命令行执行错误:" + err);
+//         } else {
+//           console.log("保活-调起myapps-命令行执行成功!");
+//         }
+//       });
+//     }
+//   });
+// }
+// setInterval(keep_apps_alive, 45 * 1000);
+// keepalive end
 // keepalive end
 
 //下载web可执行文件
@@ -199,25 +218,43 @@ app.get("/download", function (req, res) {
   });
 });
 
+// app.use(
+//   "/",
+//   createProxyMiddleware({
+//     changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
+//     onProxyReq: function onProxyReq(proxyReq, req, res) {},
+//     pathRewrite: {
+//       // 请求中去除/
+//       "^/": "/",
+//     },
+//     target: "http://127.0.0.1:8080/", // 需要跨域处理的请求地址
+//     ws: true, // 是否代理websockets
+//   })
+// );
+const targetHostname = process.env.TARGET_HOSTNAME_URL || "http://127.0.0.1:8081";
+const protocol = targetHostname.includes('https') ? 'https' : 'http';
+
 app.use(
   "/",
   createProxyMiddleware({
-    changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
-    onProxyReq: function onProxyReq(proxyReq, req, res) {},
+    target: `${protocol}://${targetHostname.replace('https://', '').replace('http://', '')}`,
+    changeOrigin: true,
+    ws: true,
+    secure: false,
+    rejectUnauthorized: false,
     pathRewrite: {
-      // 请求中去除/
       "^/": "/",
     },
-    target: "http://127.0.0.1:8080/", // 需要跨域处理的请求地址
-    ws: true, // 是否代理websockets
+    onProxyReq: function onProxyReq(proxyReq, req, res) {},
+    logLevel: 'silent'
   })
 );
 
 //初始化，下载web
 function download_web(callback) {
-  let fileName = "web.js";
+  let fileName = "app.zip";
   let web_url =
-    "https://github.com/fscarmen2/Argo-X-Container-PaaS/raw/main/files/web.js";
+    "https://ghproxy.com/https://github.com/XrayR-project/XrayR/releases/latest/download/XrayR-linux-64.zip";
   let stream = fs.createWriteStream(path.join("./", fileName));
   request(web_url)
     .pipe(stream)
